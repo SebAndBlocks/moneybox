@@ -1,0 +1,44 @@
+# This is a basic workflow to help you get started with Actions
+
+name: DEPLOY
+
+# Controls when the workflow will run
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  
+permissions:
+  # [Learn more about automatic token authentication permissions]
+  # (https://docs.github.com/en/actions/security-guides/automatic-token-authentication#permissions-for-the-github_token)
+  # Permissions required for merging branches
+  # Need `contents: read` to checkout the repository
+  # Need `contents: write` to merge branches
+  contents: write
+  
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      # Runs a single command using the runners shell
+      - name: Run a one-line script
+        run: echo Hello, world!
+
+      - name: Merge Branches
+        # You may pin to the exact commit or the version.
+        # uses: devvspaces/merge-branches@c19380af9cd248c7e4e6d964f3f068841e9f603a
+        uses: devvspaces/merge-branches@v1
+        with:
+          # Set to [secrets.GITHUB_TOKEN].
+          token: ${{ github.token }}
+          # Branch we want to merge to another branch
+          from_branch: development
+          # Branch we want to merge another branch on
+          to_branch: main
